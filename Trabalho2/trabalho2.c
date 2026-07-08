@@ -357,7 +357,8 @@ No *montarListaEncadeadaComCabecote(){
     if(cabecote == NULL){   
         return NULL;
     } 
-    cabecote->prox= NULL;
+    cabecote->prox = NULL;
+    No *atual = cabecote;
 
     for(int i =0; i < TAM; i++){
         estruAux *estrut = vetPrincipal[i];
@@ -368,8 +369,9 @@ No *montarListaEncadeadaComCabecote(){
                     return NULL; 
                 } 
                 novo->conteudo = estrut->chave[j]; 
-                novo->prox = cabecote->prox; 
-                cabecote->prox = novo;
+                novo->prox = NULL;
+                atual->prox = novo;
+                atual = novo;
             }
         }    
     }
