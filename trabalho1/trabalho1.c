@@ -10,9 +10,9 @@
 //  O aluno deve preencher seus dados abaixo, e implementar as questões do trabalho
 
 //  ----- Dados do Aluno -----
-//  Nome:
-//  email:
-//  Matrícula:
+//  Nome: Roger Cerqueira
+//  email: 20242160036@ifba.edu.br
+//  Matrícula:20242160036
 //  Semestre:
 
 //  Copyright © 2016 Renato Novais. All rights reserved.
@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include "trabalho1.h" 
 #include <stdlib.h>
+#include <string.h>
 
 DataQuebrada quebraData(char data[]);
 
