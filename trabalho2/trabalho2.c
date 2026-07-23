@@ -221,7 +221,7 @@ int getDadosOrdenadosEstruturaAuxiliar(int posicao, int vetorAux[]){
         vetorAux[i] = estrut->chave[i];
     }
     
-    qSort(vetorAux, 0, estrut->qtd, sizeof(int), compare);
+    qsort(vetorAux, estrut->qtd, sizeof(int), compare);
 
     return SUCESSO;
 }
