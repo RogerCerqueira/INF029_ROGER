@@ -13,7 +13,7 @@
 //  Nome: Roger Cerqueira
 //  email: 20242160036@ifba.edu.br
 //  Matrícula:20242160036
-//  Semestre:
+//  Semestre:2026.1
 
 //  Copyright © 2016 Renato Novais. All rights reserved.
 // Última atualização: 07/05/2021 - 19/08/2016 - 17/10/2025
