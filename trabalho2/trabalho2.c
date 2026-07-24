@@ -406,9 +406,16 @@ No *montarListaEncadeadaComCabecote(){
         estruAux *estrut = vetPrincipal[i];
         if(estrut != NULL && estrut->qtd > 0){
             for(int j = 0; j < estrut->qtd; j++){
-                No *novo = malloc(sizeof(No));
+               No *novo = malloc(sizeof(No));
                 if(novo == NULL){
+                    No *atualLimpeza = cabecote;
+                    while(atualLimpeza != NULL){
+                        No *temp = atualLimpeza->prox;
+                        free(atualLimpeza);
+                        atualLimpeza = temp;
+                    }
                     return NULL; 
+                }
                 } 
                 novo->conteudo = estrut->chave[j]; 
                 novo->prox = NULL;
