@@ -253,11 +253,11 @@ int q4(char *txt, char *palavra, int posicoes[30]){
 int q5(int n){
 
     int nInvertido = 0;
-	while(num > 0){
+	while(n > 0){
 		nInvertido = nInvertido * 10 + (n % 10);
 		n = n/10;
 	}
-    return n;
+    return nInvertido;
 }
 
 /*
