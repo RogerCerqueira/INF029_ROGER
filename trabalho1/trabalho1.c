@@ -252,19 +252,11 @@ int q4(char *txt, char *palavra, int posicoes[30]){
 
 int q5(int n){
 
-    char num[10];
-    sprintf(num, "%d", n);
-    int tam = strlen(num);
-    int zeroEsq = 0;
-    for (int i = tam -1; i>=0; i--){
-        if(num[i]!=0 || zeroEsq){
-            printf("%c", num[i]);
-            zeroEsq = 1;
-        }
-    }
-    if(!zeroEsq){
-        printf("0");
-    }
+    int nInvertido = 0;
+	while(num > 0){
+		nInvertido = nInvertido * 10 + (n % 10);
+		n = n/10;
+	}
     return n;
 }
 
@@ -279,32 +271,31 @@ int q5(int n){
  */
 
 int q6(int num, int numBusca){
+	int qtdOcorrencias = 0;
 
-    char txtNum[10];
-    sprintf(txtNum, "%d", num);
-    char txtBusca[10];
-    sprintf(txtBusca, "%d", numBusca);
-
-    int tamBusca = strlen(txtBusca);
-    int qtdeDigitos  = 0;
-    int qtdOcorrencias = 0;
-
-    for (int i = 0; i < strlen(txtNum); i++){
-        if(txtNum[i] == txtBusca[0]){
-            qtdeDigitos = 1;
-            for(int j = 1; j < tamBusca; j++){
-                if(txtNum[i + j] == txtBusca[j]){
-                    qtdeDigitos++;
-                }else {
-                    break;
-                }
-            }
-        }
-        if(qtdeDigitos == tamBusca){
-            qtdOcorrencias++;
-            qtdeDigitos = 0;
-        }
+    int qtdDigitosBusca = 0;
+    int temp = numBusca;
+    if(temp == 0){
+		qtdDigitosBusca = 1;
+	}
+	
+    while(temp > 0){
+        qtdDigitosBusca++;
+        temp /= 10;
     }
+	
+    int potencia = 1;
+    for(int i = 0; i < qtdDigitosBusca; i++){
+        potencia *= 10;
+    }
+
+    while(num > 0){
+        if(num % potencia == numBusca){
+            qtdOcorrencias++;
+        }
+        num /= 10;
+    }
+
     return qtdOcorrencias;
 }
 
