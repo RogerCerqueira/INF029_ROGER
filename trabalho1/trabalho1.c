@@ -23,9 +23,18 @@
 #include <stdio.h>
 #include "trabalho1.h" 
 #include <stdlib.h>
-#include <string.h>
 
 DataQuebrada quebraData(char data[]);
+
+
+
+int tamanhoTexto(char *txt){
+    int tamanho = 0;
+    while(txt[tamanho] != '\0'){
+        tamanho++;
+    }
+    return tamanho;
+}
 
 /*
 ## função utilizada para testes  ##
@@ -183,7 +192,7 @@ int q3(char *txt, char c, int caseSensitive){
     int contador = 0;
     
     for(int i = 0; txt[i]; i++){
-        if(caseSensitive == !1){
+        if(caseSensitive == 1){
             if(txt[i] == c){
                 contador++;
             }
@@ -213,12 +222,28 @@ int q3(char *txt, char c, int caseSensitive){
  */
 int q4(char *txt, char *palavra, int posicoes[30]){
 
-    int tamPalavra = strlen(palavra);
+    int tamPalavra = tamanhoTexto(palavra);
+    int tamTexto = tamanhoTexto(txt);
+
+    // mapa: posição em bytes -> posição em caracteres (1-indexado)
+    // trata sequências UTF-8 de acentos (ex: á, é, ç) como um único caractere,
+    // em vez de contar cada byte que as compõe separadamente
+    int mapaCaracter[300];
+    int posCaractere = 0;
+    for(int i = 0; i < tamTexto; i++){
+        unsigned char byte = (unsigned char)txt[i];
+        // bytes de continuacao UTF-8 (10xxxxxx) nao contam como novo caractere
+        if((byte & 0xC0) != 0x80){
+            posCaractere++;
+        }
+        mapaCaracter[i] = posCaractere;
+    }
+
     int qtdeLetras = 0;
     int posFinal = 0;
     int qtdOcorrencias = 0;
     
-    for(int i = 0; i < strlen(txt); i++){
+    for(int i = 0; i < tamTexto; i++){
         if(txt[i] == palavra[0]){
             qtdeLetras = 1;
             for(int j = 1; j < tamPalavra; j++){
@@ -231,8 +256,8 @@ int q4(char *txt, char *palavra, int posicoes[30]){
             }
         }
         if(qtdeLetras == tamPalavra){
-            posicoes[qtdOcorrencias * 2] = i + 1;
-            posicoes[qtdOcorrencias * 2 + 1] = posFinal + 1;
+            posicoes[qtdOcorrencias * 2] = mapaCaracter[i];
+            posicoes[qtdOcorrencias * 2 + 1] = mapaCaracter[posFinal];
             qtdOcorrencias++;
             qtdeLetras = 0;
         }
@@ -253,10 +278,10 @@ int q4(char *txt, char *palavra, int posicoes[30]){
 int q5(int n){
 
     int nInvertido = 0;
-	while(n > 0){
-		nInvertido = nInvertido * 10 + (n % 10);
-		n = n/10;
-	}
+    while(n > 0){
+        nInvertido = nInvertido * 10 + (n % 10);
+        n = n/10;
+    }
     return nInvertido;
 }
 
@@ -312,7 +337,7 @@ int q6(int num, int numBusca){
  int q7(char matriz[8][10], char palavra[5]){
 
     int linhas = 8, colunas = 10;
-    int tamPalavra = strlen(palavra);
+    int tamPalavra = tamanhoTexto(palavra);
 
     
     int direcoes[8][2] = {
