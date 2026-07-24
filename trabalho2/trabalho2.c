@@ -1,10 +1,38 @@
+// #################################################
+//  Instituto Federal da Bahia
+//  Salvador - BA
+//  Curso de Análise e Desenvolvimento de Sistemas http://ads.ifba.edu.br
+//  Disciplina: INF029 - Laboratório de Programação
+//  Professor: Renato Novais - renato@ifba.edu.br
+
+//  ----- Orientações gerais -----
+//  Descrição: esse arquivo deve conter as questões do trabalho do aluno.
+//  O aluno deve preencher seus dados abaixo, e implementar as questões do trabalho
+
+//  ----- Dados do Aluno -----
+//  Nome: Roger Cerqueira
+//  email: 20242160036@ifba.edu.br
+//  Matrícula: 20242160036
+//  Semestre: 2026.1
+
 #include <stdio.h>
 #include <stdlib.h>
 #define TAM 10
 
 #include "trabalho2.h"
 
-estruAux *vetPrincipal[TAM];
+
+typedef struct{
+    int *chave;
+    int tamanho;
+    int qtd;
+}estruAux;
+
+
+static estruAux **getVetPrincipal(void){
+    static estruAux *vetPrincipal[TAM];
+    return vetPrincipal;
+}
 
 /*
 Objetivo: criar estrutura auxiliar na posição 'posicao'.
@@ -18,7 +46,7 @@ Rertono (int)
     TAMANHO_INVALIDO - o tamanho deve ser maior ou igual a 1
 */
 int criarEstruturaAuxiliar(int posicao, int tamanho){
-
+    estruAux **vetPrincipal = getVetPrincipal();
     int retorno = 0;
     
     // o tamanho nao pode ser menor que 1
@@ -72,6 +100,7 @@ int inserirNumeroEmEstrutura(int posicao, int valor){
         return POSICAO_INVALIDA;
     }
     else{
+        estruAux **vetPrincipal = getVetPrincipal();
         // testar se existe a estrutura auxiliar
         estruAux *estrut = vetPrincipal[posicao -1];
     
@@ -108,6 +137,7 @@ int excluirNumeroDoFinaldaEstrutura(int posicao){
         return POSICAO_INVALIDA;
     }
 
+    estruAux **vetPrincipal = getVetPrincipal();
     estruAux *estrut = vetPrincipal[posicao - 1];
 
     if(estrut == NULL){
@@ -142,6 +172,7 @@ int excluirNumeroEspecificoDeEstrutura(int posicao, int valor){
         return POSICAO_INVALIDA;
     }
 
+    estruAux **vetPrincipal = getVetPrincipal();
     estruAux *estrut = vetPrincipal[posicao - 1];
     
     if(estrut == NULL){
@@ -180,6 +211,7 @@ int getDadosEstruturaAuxiliar(int posicao, int vetorAux[]){
         return POSICAO_INVALIDA;
     }
     
+    estruAux **vetPrincipal = getVetPrincipal();
     estruAux *estrut = vetPrincipal[posicao - 1];
     
     if(estrut == NULL){
@@ -211,6 +243,7 @@ int getDadosOrdenadosEstruturaAuxiliar(int posicao, int vetorAux[]){
         return POSICAO_INVALIDA;
     }
 
+    estruAux **vetPrincipal = getVetPrincipal();
     estruAux *estrut = vetPrincipal[posicao -1];
 
     if(estrut == NULL){
@@ -235,6 +268,7 @@ Rertono (int)
     TODAS_ESTRUTURAS_AUXILIARES_VAZIAS - todas as estruturas auxiliares estão vazias
 */
 int getDadosDeTodasEstruturasAuxiliares(int vetorAux[]){
+    estruAux **vetPrincipal = getVetPrincipal();
     int k = 0;
     for(int i = 0; i < TAM; i++){
         estruAux *estrut = vetPrincipal[i];
@@ -262,6 +296,7 @@ Rertono (int)
 */
 
 int getDadosOrdenadosDeTodasEstruturasAuxiliares(int vetorAux[]){
+    estruAux **vetPrincipal = getVetPrincipal();
     int k = 0;
     for(int i = 0; i < TAM; i++){
         estruAux *estrut = vetPrincipal[i];
@@ -296,6 +331,7 @@ int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho){
         return POSICAO_INVALIDA;
     }
 
+    estruAux **vetPrincipal = getVetPrincipal();
     estruAux *estrut = vetPrincipal[posicao - 1];
 
     if(estrut == NULL){
@@ -314,6 +350,10 @@ int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho){
     
     estrut->chave = novoVet;
     estrut->tamanho = estrut->tamanho + novoTamanho;
+    
+    if(estrut->qtd > estrut->tamanho){
+        estrut->qtd = estrut->tamanho;
+    }
 
     return SUCESSO;
 }
@@ -332,6 +372,7 @@ int getQuantidadeElementosEstruturaAuxiliar(int posicao){
         return POSICAO_INVALIDA;
     }
 
+    estruAux **vetPrincipal = getVetPrincipal();
     estruAux *estrut = vetPrincipal[posicao - 1];
 
     if(estrut == NULL){
@@ -360,6 +401,7 @@ No *montarListaEncadeadaComCabecote(){
     cabecote->prox = NULL;
     No *atual = cabecote;
 
+    estruAux **vetPrincipal = getVetPrincipal();
     for(int i =0; i < TAM; i++){
         estruAux *estrut = vetPrincipal[i];
         if(estrut != NULL && estrut->qtd > 0){
@@ -419,6 +461,7 @@ Objetivo: inicializa o programa. deve ser chamado ao inicio do programa
 */
 
 void inicializar(){
+    estruAux **vetPrincipal = getVetPrincipal();
     for(int i = 0; i < TAM; i++){
         vetPrincipal[i] = NULL;
     }
@@ -431,15 +474,11 @@ para poder liberar todos os espaços de memória das estruturas auxiliares.
 */
 
 void finalizar(){
+    estruAux **vetPrincipal = getVetPrincipal();
     for(int i = 0; i < TAM; i++){
         if(vetPrincipal[i] != NULL){
             free(vetPrincipal[i]->chave);
             free(vetPrincipal[i]);
         }
     }
-}
-
-int main(){
-
-
 }
