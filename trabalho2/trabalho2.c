@@ -21,6 +21,12 @@
 
 #include "trabalho2.h"
 
+typedef struct{
+    int *chave;
+    int tamanho;
+    int qtd;
+}estruAux;
+
 
 static estruAux **getVetPrincipal(void){
     static estruAux *vetPrincipal[TAM];
